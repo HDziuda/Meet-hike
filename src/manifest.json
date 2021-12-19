@@ -1,0 +1,19 @@
+{
+  "name": "Google meet HIKE!",
+  "description": "",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://meet.google.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup/index.html"
+  }
+}
