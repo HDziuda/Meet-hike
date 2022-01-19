@@ -1,1 +1,1 @@
-# Google Meet Hike
+# Meet Hike

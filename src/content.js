@@ -67,18 +67,36 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
 });
 
-const renderIcon = (participant, icon) => {
-  if (participant.getAttribute("gmgparticipantchecked")) {
-    icon.innerHTML = checkedIcon;
-    return;
-  }
-  icon.innerHTML = uncheckedIcon;
+const participantIndex = (participant) => {
+  const pName = participant.querySelector("span").innerHTML;
+  const pProfUrl = participant.querySelector("img").getAttribute("src");
+  return `id:${pName + pProfUrl}`;
+};
+
+const renderIcons = (participantsContainers) => {
+  participantsContainers.forEach((participant) => {
+    const pIndex = participantIndex(participant);
+    const icon = participant.querySelector(".gmh__checkedIcon");
+
+    if (window.gmhParticipants[pIndex]) {
+      participant.setAttribute("gmgparticipantchecked", true);
+      icon.innerHTML = checkedIcon;
+      return;
+    }
+
+    participant.removeAttribute("gmgparticipantchecked");
+    icon.innerHTML = uncheckedIcon;
+  });
 };
 
 const createCheckboxes = () => {
   const participantsContainers = document.querySelectorAll(
     'div[role="listitem"]'
   );
+
+  if (!window.gmhParticipants) {
+    window.gmhParticipants = {};
+  }
   // const participantsIds = Array.from(participantsContainers).map(
   //   (cointainer) => {
   //     return cointainer.getAttribute("data-participant-id");
@@ -90,11 +108,9 @@ const createCheckboxes = () => {
       return;
     }
 
-    const participantName = participant.querySelector("span").innerHTML;
-    const participantProfUrl = participant
-      .querySelector("img")
-      .getAttribute("src");
-    console.log(participantName, participantProfUrl);
+    const pIndex = participantIndex(participant);
+
+    window.gmhParticipants[pIndex] = false;
 
     const iconWrapper = document.createElement("div");
     iconWrapper.classList.add("gmh__iconWrapper");
@@ -103,16 +119,10 @@ const createCheckboxes = () => {
     icon.classList.add("gmh__checkedIcon");
 
     icon.addEventListener("click", () => {
-      if (participant.getAttribute("gmgparticipantchecked")) {
-        participant.removeAttribute("gmgparticipantchecked");
-      } else {
-        participant.setAttribute("gmgparticipantchecked", true);
-      }
+      window.gmhParticipants[pIndex] = !window.gmhParticipants[pIndex];
 
-      renderIcon(participant, icon);
+      renderIcons(participantsContainers);
     });
-
-    renderIcon(participant, icon);
 
     iconWrapper.prepend(icon);
     participant.children[1].prepend(iconWrapper);
@@ -122,6 +132,8 @@ const createCheckboxes = () => {
     //   participant.children[0].children[1]
     // );
   });
+
+  renderIcons(participantsContainers);
 };
 
 window.addEventListener("click", (event) => {
