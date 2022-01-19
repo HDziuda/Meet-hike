@@ -8,11 +8,20 @@ const eventListner = async () => {
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     function: () => {
-      window.addEventListener("animationstart", (event) => {
-        if (event.animationName === "joinToastExpand") {
-          console.log("someone joined");
-        }
-      });
+      // window.addEventListener("animationstart", (event) => {
+      //   if (event.animationName === "joinToastExpand") {
+      //     const participantsContainers = document.querySelectorAll(
+      //       'div[role="listitem"]'
+      //     );
+
+      //     // mdc-ripple-fg-opacity-in
+      //     // click
+      //     console.log(document);
+      //     console.log(participantsContainers);
+      //   }
+      // });
+      console.log("co jest");
+
       // Object.keys(window).forEach((key) => {
       //   if (/^on/.test(key)) {
       //     if (

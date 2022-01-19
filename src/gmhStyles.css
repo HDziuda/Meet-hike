@@ -1,0 +1,13 @@
+.gmh__iconWrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.gmh__checkedIcon {
+  cursor: pointer;
+}
+
+div[gmgparticipantchecked="true"] {
+  opacity: 0.5;
+}
