@@ -1,13 +1,33 @@
+div[role="listitem"] div:first-child .gmh__checkedIcon {
+  display: block;
+}
 .gmh__iconWrapper {
+  padding-right: 14px;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
 .gmh__checkedIcon {
+  display: none;
   cursor: pointer;
 }
 
 div[gmgparticipantchecked="true"] {
   opacity: 0.5;
+}
+
+h2 {
+  display: flex;
+  justify-content: space-between;
+}
+.diceIcon__wrapper {
+  height: 33px;
+  width: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 5px;
+  cursor: pointer;
 }
