@@ -23,10 +23,12 @@ const checkedIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}"
 <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>
 </svg>`;
 
+const isMac = () => navigator.userAgent.indexOf("Mac OS X") != -1;
+console.log(isMac());
+
 const simulateKeyPress = (keyDescription) => {
   document.body.dispatchEvent(
     new KeyboardEvent("keydown", {
-      metaKey: true,
       isTrusted: true,
       altKey: false,
       bubbles: true,
@@ -34,14 +36,14 @@ const simulateKeyPress = (keyDescription) => {
       cancelable: true,
       charCode: 0,
       composed: true,
-      ctrlKey: false,
+      ctrlKey: !isMac(),
       currentTarget: null,
       defaultPrevented: true,
       detail: 0,
       eventPhase: 0,
       isComposing: false,
       location: 0,
-      metaKey: true,
+      metaKey: isMac(),
       ...keyDescription,
     })
   );
@@ -109,8 +111,9 @@ const createCheckboxes = () => {
     }
 
     const pIndex = participantIndex(participant);
-
-    window.gmhParticipants[pIndex] = false;
+    if (window.gmhParticipants[pIndex] === undefined) {
+      window.gmhParticipants[pIndex] = false;
+    }
 
     const iconWrapper = document.createElement("div");
     iconWrapper.classList.add("gmh__iconWrapper");
@@ -120,7 +123,7 @@ const createCheckboxes = () => {
 
     icon.addEventListener("click", () => {
       window.gmhParticipants[pIndex] = !window.gmhParticipants[pIndex];
-
+      console.log(window.gmhParticipants);
       renderIcons(participantsContainers);
     });
 
@@ -146,6 +149,9 @@ window.addEventListener("animationstart", (event) => {
   }
 });
 window.addEventListener("transitioncancel", (event) => {
+  setTimeout(createCheckboxes, 10);
+});
+window.addEventListener("focus", (event) => {
   setTimeout(createCheckboxes, 10);
 });
 

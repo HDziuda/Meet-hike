@@ -1,27 +1,12 @@
 let micMuteCheckbox = document.getElementById("micMuteCheckbox");
 let camOffCheckbox = document.getElementById("camOffCheckbox");
 
-// When the button is clicked, inject setPageBackgroundColor into current page
 const eventListner = async () => {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     function: () => {
-      // window.addEventListener("animationstart", (event) => {
-      //   if (event.animationName === "joinToastExpand") {
-      //     const participantsContainers = document.querySelectorAll(
-      //       'div[role="listitem"]'
-      //     );
-
-      //     // mdc-ripple-fg-opacity-in
-      //     // click
-      //     console.log(document);
-      //     console.log(participantsContainers);
-      //   }
-      // });
-      console.log("co jest");
-
       // Object.keys(window).forEach((key) => {
       //   if (/^on/.test(key)) {
       //     if (
@@ -69,30 +54,3 @@ camOffCheckbox.addEventListener("click", async (e) => {
   });
   eventListner();
 })();
-
-// document.body.dispatchEvent(
-//   new KeyboardEvent("keydown", {
-//     key: "d",
-//     code: "KeyD",
-//     keyCode: 68,
-//     metaKey: true,
-//     isTrusted: true,
-//     altKey: false,
-//     bubbles: true,
-//     cancelBubble: false,
-//     cancelable: true,
-//     charCode: 0,
-//     code: "KeyD",
-//     composed: true,
-//     ctrlKey: false,
-//     currentTarget: null,
-//     defaultPrevented: true,
-//     detail: 0,
-//     eventPhase: 0,
-//     isComposing: false,
-//     key: "d",
-//     keyCode: 68,
-//     location: 0,
-//     metaKey: true,
-//   })
-// );
