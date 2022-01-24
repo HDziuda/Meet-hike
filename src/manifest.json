@@ -10,8 +10,5 @@
       "css": ["gmhStyles.css"]
     }
   ],
-  "permissions": ["storage", "activeTab", "scripting"],
-  "action": {
-    "default_popup": "popup/index.html"
-  }
+  "permissions": ["storage", "activeTab", "scripting"]
 }

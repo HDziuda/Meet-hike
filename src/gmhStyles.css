@@ -1,14 +1,14 @@
-div[role="listitem"] div:first-child .gmh__checkedIcon {
+div[role="listitem"] div:first-child .checkbox__icon {
   display: block;
 }
-.gmh__iconWrapper {
+.checkbox__wrapper {
   padding-right: 14px;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
-.gmh__checkedIcon {
+.checkbox__icon {
   display: none;
   cursor: pointer;
 }
@@ -21,7 +21,7 @@ h2 {
   display: flex;
   justify-content: space-between;
 }
-.diceIcon__wrapper {
+.dice__wrapper {
   height: 33px;
   width: 33px;
   display: flex;

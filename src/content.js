@@ -41,54 +41,47 @@ const getRandomParticipant = () => {
   window.alert(winnerName);
 };
 
+const createIcon = (className, event, iconHTML = "") => {
+  const iconWrapper = document.createElement("div");
+  iconWrapper.classList.add(`${className}__wrapper`);
+
+  const icon = document.createElement("div");
+  icon.classList.add(`${className}__icon`);
+
+  icon.innerHTML = iconHTML;
+  iconWrapper.prepend(icon);
+
+  iconWrapper.addEventListener("click", event);
+
+  return iconWrapper;
+};
+
 const renderDiceIcon = () => {
   const panel = document.querySelector('div[role="list"]');
-
   if (!panel) return;
 
   const titleContainer = panel.parentNode.children[0];
+  if (titleContainer.querySelector(".dice__wrapper")) return;
 
-  if (titleContainer.querySelector(".diceIcon__wrapper")) return;
-
-  const iconWrapper = document.createElement("div");
-  iconWrapper.classList.add("diceIcon__wrapper");
-
-  const icon = document.createElement("div");
-  icon.innerHTML = diceIcon;
-  iconWrapper.prepend(icon);
-
-  iconWrapper.addEventListener("click", getRandomParticipant);
-
-  titleContainer.append(iconWrapper);
+  const icon = createIcon("dice", getRandomParticipant, diceIcon);
+  titleContainer.append(icon);
 };
 
 const renderIcons = (participantsContainers) => {
   participantsContainers.forEach((participant) => {
     const pIndex = participantIndex(participant);
-    let iconWrapper = participant.querySelector(".gmh__iconWrapper");
+    let iconWrapper = participant.querySelector(".checkbox__wrapper");
 
     if (!iconWrapper) {
-      iconWrapper = document.createElement("div");
-      iconWrapper.classList.add("gmh__iconWrapper");
-
-      const icon = document.createElement("div");
-      icon.classList.add("gmh__checkedIcon");
-
-      icon.addEventListener("click", () => {
+      const createdIcon = createIcon("checkbox", () => {
         window.gmhParticipants[pIndex] = !window.gmhParticipants[pIndex];
         renderIcons(participantsContainers);
       });
 
-      iconWrapper.prepend(icon);
-
-      // participant.children[1].prepend(iconWrapper);
-      participant.children[0].insertBefore(
-        iconWrapper,
-        participant.children[0].children[0]
-      );
+      participant.children[0].prepend(createdIcon);
     }
 
-    const icon = participant.querySelector(".gmh__checkedIcon");
+    const icon = participant.querySelector(".checkbox__icon");
 
     if (window.gmhParticipants[pIndex]) {
       participant.setAttribute("gmgparticipantchecked", true);
@@ -107,14 +100,9 @@ const createCheckboxes = () => {
   if (!window.gmhParticipants) {
     window.gmhParticipants = {};
   }
-  // const participantsIds = Array.from(participantsContainers).map(
-  //   (cointainer) => {
-  //     return cointainer.getAttribute("data-participant-id");
-  //   }
-  // );
 
   participantsContainers.forEach((participant) => {
-    if (participant.querySelector(".gmh__iconWrapper")) {
+    if (participant.querySelector(".checkbox__wrapper")) {
       return;
     }
 
@@ -122,18 +110,13 @@ const createCheckboxes = () => {
     if (window.gmhParticipants[pIndex] === undefined) {
       window.gmhParticipants[pIndex] = false;
     }
-
-    // participant.children[0].insertBefore(
-    //   icon,
-    //   participant.children[0].children[1]
-    // );
   });
 
   renderDiceIcon();
   renderIcons(participantsContainers);
 };
 
-window.addEventListener("click", (event) => {
+window.addEventListener("click", () => {
   setTimeout(createCheckboxes, 10);
 });
 
@@ -142,9 +125,9 @@ window.addEventListener("animationstart", (event) => {
     setTimeout(createCheckboxes, 10);
   }
 });
-window.addEventListener("transitioncancel", (event) => {
+window.addEventListener("transitioncancel", () => {
   setTimeout(createCheckboxes, 10);
 });
-window.addEventListener("focus", (event) => {
+window.addEventListener("focus", () => {
   setTimeout(createCheckboxes, 10);
 });
