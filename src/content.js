@@ -117,17 +117,17 @@ const createCheckboxes = () => {
 };
 
 window.addEventListener("click", () => {
-  setTimeout(createCheckboxes, 10);
+  setTimeout(createCheckboxes, 40);
 });
 
 window.addEventListener("animationstart", (event) => {
   if (event.animationName === "joinToastExpand") {
-    setTimeout(createCheckboxes, 10);
+    setTimeout(createCheckboxes, 20);
   }
 });
 window.addEventListener("transitioncancel", () => {
-  setTimeout(createCheckboxes, 10);
+  setTimeout(createCheckboxes, 20);
 });
 window.addEventListener("focus", () => {
-  setTimeout(createCheckboxes, 10);
+  setTimeout(createCheckboxes, 20);
 });
